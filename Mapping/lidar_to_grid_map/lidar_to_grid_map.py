@@ -15,9 +15,10 @@ import numpy as np
 EXTEND_AREA = 1.0
 
 
-def file_read(f):
+def file_read(f): # LIDAR 센서값 읽기 || return : angles(각도, Numpy배열), distances(거리, Numpy배열)
     """
     Reading LIDAR laser beams (angles and corresponding distance data)
+    LIDAR 센서 읽기 (각도와 거리)
     """
     with open(f) as data:
         measures = [line.split(",") for line in data]
@@ -32,6 +33,10 @@ def file_read(f):
 
 
 def bresenham(start, end):
+    # input : ((x1, y1), (x2, y2)) >>> 2개의 점 좌표
+    # output: np.array([[x1,y1], ... [x2,y2]) >>> 2개의 점 좌표를 잇기 위해 필요한 픽셀의 좌표(Numpy배열)
+    # https://velog.io/@octo__/%EB%B8%8C%EB%A0%88%EC%A0%A0%ED%97%98-%EC%A7%81%EC%84%A0-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98Bresenhams-line-algorithm
+    # 복잡하고 느린 실수 계산을 배제하고 정수 계산으로 직선을 그리는 것.
     """
     Implementation of Bresenham's line drawing algorithm
     See en.wikipedia.org/wiki/Bresenham's_line_algorithm
@@ -44,10 +49,15 @@ def bresenham(start, end):
     # setup initial conditions
     x1, y1 = start
     x2, y2 = end
-    dx = x2 - x1
-    dy = y2 - y1
-    is_steep = abs(dy) > abs(dx)  # determine how steep the line is
-    if is_steep:  # rotate line
+    dx = x2 - x1 # 각 점 간의 x좌표 차이
+    dy = y2 - y1 # 각 점 간의 y좌표 차이
+    is_steep = abs(dy) > abs(dx)  # determine how steep the line is # 선이 얼마나 경사졌는지 확인
+    """
+    직선의 기울기는 dy/dx로 나타난다.
+    즉, dy가 dx보다 크다면(is_steep = True)  기울기 > 1을 의미하고,
+        dx가 dy보다 크다면(is_steep = False) 기울기 < 1을 의미한다.
+    """
+    if is_steep: # 각 점의 x,y좌표를 반전시킴으로서 기울기가 항상 1보다 작도록 한다. # rotate line
         x1, y1 = y1, x1
         x2, y2 = y2, x2
     # swap start and end points if necessary and store swap state
@@ -210,7 +220,7 @@ def main():
     """
     print(__file__, "start")
     xy_resolution = 0.02  # x-y grid resolution
-    ang, dist = file_read("lidar01.csv")
+    ang, dist = file_read("c:/Users/User/OneDrive/바탕 화면/coding/AutoServingRobot/PythonRobotics/Mapping/lidar_to_grid_map/lidar01.csv")
     ox = np.sin(ang) * dist
     oy = np.cos(ang) * dist
     occupancy_map, min_x, max_x, min_y, max_y, xy_resolution = \
