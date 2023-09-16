@@ -14,7 +14,6 @@ import numpy as np
 
 EXTEND_AREA = 1.0
 
-
 def file_read(f): # LIDAR 센서값 읽기 || return : angles(각도, Numpy배열), distances(거리, Numpy배열)
     """
     Reading LIDAR laser beams (angles and corresponding distance data)
@@ -221,7 +220,7 @@ def main():
     print(__file__, "start")
     xy_resolution = 0.02  # x-y grid resolution
     ang, dist = file_read("c:/Users/User/OneDrive/바탕 화면/coding/AutoServingRobot/PythonRobotics/Mapping/lidar_to_grid_map/lidar01.csv")
-    ox = np.sin(ang) * dist
+    ox = np.sin(ang) * dist # (각도, 거리)를 의미하는 극좌표에서 (x, y)를 의미하는 직교좌표로 변환
     oy = np.cos(ang) * dist
     occupancy_map, min_x, max_x, min_y, max_y, xy_resolution = \
         generate_ray_casting_grid_map(ox, oy, xy_resolution, True)
@@ -244,7 +243,6 @@ def main():
     plt.ylim((top, bottom))  # rescale y axis, to match the grid orientation
     plt.grid(True)
     plt.show()
-
 
 if __name__ == '__main__':
     main()
