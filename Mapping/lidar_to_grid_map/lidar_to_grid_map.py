@@ -244,5 +244,8 @@ def main():
     plt.grid(True)
     plt.show()
 
+    np.savetxt('c:/Users/User/OneDrive/바탕 화면/coding/AutoServingRobot/PythonRobotics/Mapping/lidar_to_grid_map/output.txt', occupancy_map, fmt='%d', delimiter=',')
+
+
 if __name__ == '__main__':
     main()

@@ -372,7 +372,7 @@ def main():
     for i in range(-10, 61):
         ox.append(-10.0)
         oy.append(i)
-    for i in range(-10, 40):
+    for i in range(-50, 40):
         ox.append(20.0)
         oy.append(i)
     for i in range(0, 40):
@@ -414,7 +414,7 @@ def main():
 
     # Obstacles that demostrate large rerouting
     spoofed_ox = [[], [], [],
-                  [i for i in range(0, 21)] + [0 for _ in range(0, 20)]]
+                  [i for i in range(0, 21)] + [0 for _ in range(-20, 20)]]
     spoofed_oy = [[], [], [],
                   [20 for _ in range(0, 21)] + [i for i in range(0, 20)]]
 
